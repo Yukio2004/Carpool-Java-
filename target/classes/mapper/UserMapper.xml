@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.caelan.caelancarpool.mapper.UserMapper">
+    <select id="timeMatchD" resultType="int">
+        select user_id from ${day} as tablesample
+        where (
+            time_to_sec(timediff(tablesample.departure_time1, #{departure}))
+                between -#{timeDiff} and #{timeDiff}
+            or time_to_sec(timediff(tablesample.departure_time2, #{departure}))
+                between -#{timeDiff} and #{timeDiff}
+            or time_to_sec(timediff(tablesample.departure_time3, #{departure}))
+                between -#{timeDiff} and #{timeDiff}
+            )
+    </select>
+
+    <select id="timeMatchL" resultType="int">
+        select user_id from ${day} as tablesample
+        where (
+            time_to_sec(timediff(tablesample.leaving_time1,#{leaving}))
+                between -#{timeDiff} and #{timeDiff}
+            or time_to_sec(timediff(tablesample.leaving_time2,#{leaving}))
+                between -#{timeDiff} and #{timeDiff}
+            or time_to_sec(timediff(tablesample.leaving_time3,#{leaving}))
+                between -#{timeDiff} and #{timeDiff}
+            )
+    </select>
+
+    <select id="findAddress" resultType="com.caelan.caelancarpool.pojo.AddressList">
+        select id, address, campus from drivers
+        where id in
+        <foreach collection="ids"
+                 item="id"
+                 open="("
+                 separator=","
+                 close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="finalMatch" resultType="com.caelan.caelancarpool.pojo.UserInfo">
+        select id, name, address, campus from drivers
+        where id in
+            <foreach collection="ids"
+                 item="id"
+                 open="("
+                 separator=","
+                 close=")">
+              #{id}
+            </foreach>
+    </select>
+</mapper>

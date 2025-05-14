@@ -1,0 +1,16 @@
+#SPRING
+spring:
+  application:
+    name: CaelanCarpool
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/users
+    username: root
+    password: 240930@Zjt
+
+#MYBATIS
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.commons.JakartaCommonsLoggingImpl
+  mapper-locations: classpath:mapper/*.xml
